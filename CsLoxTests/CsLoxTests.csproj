@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{811F4362-BAA9-4DA9-9ADF-4E01DC564B60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsLoxTests</RootNamespace>
+    <AssemblyName>CsLoxTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CsLoxTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScanningTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="TestScripts\assignment\associativity.lox" />
+    <None Include="TestScripts\assignment\global.lox" />
+    <None Include="TestScripts\assignment\grouping.lox" />
+    <None Include="TestScripts\assignment\infix_operator.lox" />
+    <None Include="TestScripts\assignment\local.lox" />
+    <None Include="TestScripts\assignment\prefix_operator.lox" />
+    <None Include="TestScripts\assignment\syntax.lox" />
+    <None Include="TestScripts\assignment\to_this.lox" />
+    <None Include="TestScripts\assignment\undefined.lox" />
+    <None Include="TestScripts\benchmark\binary_trees.lox" />
+    <None Include="TestScripts\benchmark\equality.lox" />
+    <None Include="TestScripts\benchmark\fib.lox" />
+    <None Include="TestScripts\benchmark\instantiation.lox" />
+    <None Include="TestScripts\benchmark\invocation.lox" />
+    <None Include="TestScripts\benchmark\method_call.lox" />
+    <None Include="TestScripts\benchmark\properties.lox" />
+    <None Include="TestScripts\benchmark\string_equality.lox" />
+    <None Include="TestScripts\benchmark\trees.lox" />
+    <None Include="TestScripts\benchmark\zoo.lox" />
+    <None Include="TestScripts\block\empty.lox" />
+    <None Include="TestScripts\block\scope.lox" />
+    <None Include="TestScripts\bool\equality.lox" />
+    <None Include="TestScripts\bool\not.lox" />
+    <None Include="TestScripts\call\bool.lox" />
+    <None Include="TestScripts\call\nil.lox" />
+    <None Include="TestScripts\call\num.lox" />
+    <None Include="TestScripts\call\object.lox" />
+    <None Include="TestScripts\call\string.lox" />
+    <None Include="TestScripts\class\empty.lox" />
+    <None Include="TestScripts\class\inherited_method.lox" />
+    <None Include="TestScripts\class\inherit_self.lox" />
+    <None Include="TestScripts\class\local_inherit_other.lox" />
+    <None Include="TestScripts\class\local_inherit_self.lox" />
+    <None Include="TestScripts\class\local_reference_self.lox" />
+    <None Include="TestScripts\class\reference_self.lox" />
+    <None Include="TestScripts\closure\assign_to_closure.lox" />
+    <None Include="TestScripts\closure\assign_to_shadowed_later.lox" />
+    <None Include="TestScripts\closure\closed_closure_in_function.lox" />
+    <None Include="TestScripts\closure\close_over_function_parameter.lox" />
+    <None Include="TestScripts\closure\close_over_later_variable.lox" />
+    <None Include="TestScripts\closure\close_over_method_parameter.lox" />
+    <None Include="TestScripts\closure\nested_closure.lox" />
+    <None Include="TestScripts\closure\open_closure_in_function.lox" />
+    <None Include="TestScripts\closure\reference_closure_multiple_times.lox" />
+    <None Include="TestScripts\closure\reuse_closure_slot.lox" />
+    <None Include="TestScripts\closure\shadow_closure_with_local.lox" />
+    <None Include="TestScripts\closure\unused_closure.lox" />
+    <None Include="TestScripts\closure\unused_later_closure.lox" />
+    <None Include="TestScripts\comments\line_at_eof.lox" />
+    <None Include="TestScripts\comments\only_line_comment.lox" />
+    <None Include="TestScripts\comments\only_line_comment_and_line.lox" />
+    <None Include="TestScripts\comments\unicode.lox" />
+    <None Include="TestScripts\constructor\arguments.lox" />
+    <None Include="TestScripts\constructor\call_init_early_return.lox" />
+    <None Include="TestScripts\constructor\call_init_explicitly.lox" />
+    <None Include="TestScripts\constructor\default.lox" />
+    <None Include="TestScripts\constructor\default_arguments.lox" />
+    <None Include="TestScripts\constructor\early_return.lox" />
+    <None Include="TestScripts\constructor\extra_arguments.lox" />
+    <None Include="TestScripts\constructor\init_not_method.lox" />
+    <None Include="TestScripts\constructor\missing_arguments.lox" />
+    <None Include="TestScripts\constructor\return_in_nested_function.lox" />
+    <None Include="TestScripts\constructor\return_value.lox" />
+    <None Include="TestScripts\empty_file.lox" />
+    <None Include="TestScripts\expressions\evaluate.lox" />
+    <None Include="TestScripts\expressions\parse.lox" />
+    <None Include="TestScripts\extension.lox" />
+    <None Include="TestScripts\field\call_function_field.lox" />
+    <None Include="TestScripts\field\call_nonfunction_field.lox" />
+    <None Include="TestScripts\field\get_and_set_method.lox" />
+    <None Include="TestScripts\field\get_on_bool.lox" />
+    <None Include="TestScripts\field\get_on_class.lox" />
+    <None Include="TestScripts\field\get_on_function.lox" />
+    <None Include="TestScripts\field\get_on_nil.lox" />
+    <None Include="TestScripts\field\get_on_num.lox" />
+    <None Include="TestScripts\field\get_on_string.lox" />
+    <None Include="TestScripts\field\many.lox" />
+    <None Include="TestScripts\field\method.lox" />
+    <None Include="TestScripts\field\method_binds_this.lox" />
+    <None Include="TestScripts\field\on_instance.lox" />
+    <None Include="TestScripts\field\set_evaluation_order.lox" />
+    <None Include="TestScripts\field\set_on_bool.lox" />
+    <None Include="TestScripts\field\set_on_class.lox" />
+    <None Include="TestScripts\field\set_on_function.lox" />
+    <None Include="TestScripts\field\set_on_nil.lox" />
+    <None Include="TestScripts\field\set_on_num.lox" />
+    <None Include="TestScripts\field\set_on_string.lox" />
+    <None Include="TestScripts\field\undefined.lox" />
+    <None Include="TestScripts\for\class_in_body.lox" />
+    <None Include="TestScripts\for\closure_in_body.lox" />
+    <None Include="TestScripts\for\fun_in_body.lox" />
+    <None Include="TestScripts\for\return_closure.lox" />
+    <None Include="TestScripts\for\return_inside.lox" />
+    <None Include="TestScripts\for\scope.lox" />
+    <None Include="TestScripts\for\statement_condition.lox" />
+    <None Include="TestScripts\for\statement_increment.lox" />
+    <None Include="TestScripts\for\statement_initializer.lox" />
+    <None Include="TestScripts\for\syntax.lox" />
+    <None Include="TestScripts\for\var_in_body.lox" />
+    <None Include="TestScripts\function\body_must_be_block.lox" />
+    <None Include="TestScripts\function\empty_body.lox" />
+    <None Include="TestScripts\function\extra_arguments.lox" />
+    <None Include="TestScripts\function\local_mutual_recursion.lox" />
+    <None Include="TestScripts\function\local_recursion.lox" />
+    <None Include="TestScripts\function\missing_arguments.lox" />
+    <None Include="TestScripts\function\missing_comma_in_parameters.lox" />
+    <None Include="TestScripts\function\mutual_recursion.lox" />
+    <None Include="TestScripts\function\parameters.lox" />
+    <None Include="TestScripts\function\print.lox" />
+    <None Include="TestScripts\function\recursion.lox" />
+    <None Include="TestScripts\function\too_many_arguments.lox" />
+    <None Include="TestScripts\function\too_many_parameters.lox" />
+    <None Include="TestScripts\if\class_in_else.lox" />
+    <None Include="TestScripts\if\class_in_then.lox" />
+    <None Include="TestScripts\if\dangling_else.lox" />
+    <None Include="TestScripts\if\else.lox" />
+    <None Include="TestScripts\if\fun_in_else.lox" />
+    <None Include="TestScripts\if\fun_in_then.lox" />
+    <None Include="TestScripts\if\if.lox" />
+    <None Include="TestScripts\if\truth.lox" />
+    <None Include="TestScripts\if\var_in_else.lox" />
+    <None Include="TestScripts\if\var_in_then.lox" />
+    <None Include="TestScripts\inheritance\constructor.lox" />
+    <None Include="TestScripts\inheritance\inherit_from_function.lox" />
+    <None Include="TestScripts\inheritance\inherit_from_nil.lox" />
+    <None Include="TestScripts\inheritance\inherit_from_number.lox" />
+    <None Include="TestScripts\inheritance\inherit_methods.lox" />
+    <None Include="TestScripts\inheritance\parenthesized_superclass.lox" />
+    <None Include="TestScripts\inheritance\set_fields_from_base_class.lox" />
+    <None Include="TestScripts\limit\loop_too_large.lox" />
+    <None Include="TestScripts\limit\no_reuse_constants.lox" />
+    <None Include="TestScripts\limit\stack_overflow.lox" />
+    <None Include="TestScripts\limit\too_many_constants.lox" />
+    <None Include="TestScripts\limit\too_many_locals.lox" />
+    <None Include="TestScripts\limit\too_many_upvalues.lox" />
+    <None Include="TestScripts\logical_operator\and.lox" />
+    <None Include="TestScripts\logical_operator\and_truth.lox" />
+    <None Include="TestScripts\logical_operator\or.lox" />
+    <None Include="TestScripts\logical_operator\or_truth.lox" />
+    <None Include="TestScripts\method\arity.lox" />
+    <None Include="TestScripts\method\empty_block.lox" />
+    <None Include="TestScripts\method\extra_arguments.lox" />
+    <None Include="TestScripts\method\missing_arguments.lox" />
+    <None Include="TestScripts\method\not_found.lox" />
+    <None Include="TestScripts\method\print_bound_method.lox" />
+    <None Include="TestScripts\method\refer_to_name.lox" />
+    <None Include="TestScripts\method\too_many_arguments.lox" />
+    <None Include="TestScripts\method\too_many_parameters.lox" />
+    <None Include="TestScripts\nil\literal.lox" />
+    <None Include="TestScripts\number\decimal_point_at_eof.lox" />
+    <None Include="TestScripts\number\leading_dot.lox" />
+    <None Include="TestScripts\number\literals.lox" />
+    <None Include="TestScripts\number\nan_equality.lox" />
+    <None Include="TestScripts\number\trailing_dot.lox" />
+    <None Include="TestScripts\operator\add.lox" />
+    <None Include="TestScripts\operator\add_bool_nil.lox" />
+    <None Include="TestScripts\operator\add_bool_num.lox" />
+    <None Include="TestScripts\operator\add_bool_string.lox" />
+    <None Include="TestScripts\operator\add_nil_nil.lox" />
+    <None Include="TestScripts\operator\add_num_nil.lox" />
+    <None Include="TestScripts\operator\add_string_nil.lox" />
+    <None Include="TestScripts\operator\comparison.lox" />
+    <None Include="TestScripts\operator\divide.lox" />
+    <None Include="TestScripts\operator\divide_nonnum_num.lox" />
+    <None Include="TestScripts\operator\divide_num_nonnum.lox" />
+    <None Include="TestScripts\operator\equals.lox" />
+    <None Include="TestScripts\operator\equals_class.lox" />
+    <None Include="TestScripts\operator\equals_method.lox" />
+    <None Include="TestScripts\operator\greater_nonnum_num.lox" />
+    <None Include="TestScripts\operator\greater_num_nonnum.lox" />
+    <None Include="TestScripts\operator\greater_or_equal_nonnum_num.lox" />
+    <None Include="TestScripts\operator\greater_or_equal_num_nonnum.lox" />
+    <None Include="TestScripts\operator\less_nonnum_num.lox" />
+    <None Include="TestScripts\operator\less_num_nonnum.lox" />
+    <None Include="TestScripts\operator\less_or_equal_nonnum_num.lox" />
+    <None Include="TestScripts\operator\less_or_equal_num_nonnum.lox" />
+    <None Include="TestScripts\operator\multiply.lox" />
+    <None Include="TestScripts\operator\multiply_nonnum_num.lox" />
+    <None Include="TestScripts\operator\multiply_num_nonnum.lox" />
+    <None Include="TestScripts\operator\negate.lox" />
+    <None Include="TestScripts\operator\negate_nonnum.lox" />
+    <None Include="TestScripts\operator\not.lox" />
+    <None Include="TestScripts\operator\not_class.lox" />
+    <None Include="TestScripts\operator\not_equals.lox" />
+    <None Include="TestScripts\operator\subtract.lox" />
+    <None Include="TestScripts\operator\subtract_nonnum_num.lox" />
+    <None Include="TestScripts\operator\subtract_num_nonnum.lox" />
+    <None Include="TestScripts\precedence.lox" />
+    <None Include="TestScripts\print\missing_argument.lox" />
+    <None Include="TestScripts\regression\394.lox" />
+    <None Include="TestScripts\regression\40.lox" />
+    <None Include="TestScripts\return\after_else.lox" />
+    <None Include="TestScripts\return\after_if.lox" />
+    <None Include="TestScripts\return\after_while.lox" />
+    <None Include="TestScripts\return\at_top_level.lox" />
+    <None Include="TestScripts\return\in_function.lox" />
+    <None Include="TestScripts\return\in_method.lox" />
+    <None Include="TestScripts\return\return_nil_if_no_value.lox" />
+    <None Include="TestScripts\scanning\identifiers.lox" />
+    <None Include="TestScripts\scanning\keywords.lox" />
+    <None Include="TestScripts\scanning\numbers.lox" />
+    <None Include="TestScripts\scanning\punctuators.lox" />
+    <None Include="TestScripts\scanning\strings.lox" />
+    <None Include="TestScripts\scanning\whitespace.lox" />
+    <None Include="TestScripts\string\error_after_multiline.lox" />
+    <None Include="TestScripts\string\literals.lox" />
+    <None Include="TestScripts\string\multiline.lox" />
+    <None Include="TestScripts\string\unterminated.lox" />
+    <None Include="TestScripts\super\bound_method.lox" />
+    <None Include="TestScripts\super\call_other_method.lox" />
+    <None Include="TestScripts\super\call_same_method.lox" />
+    <None Include="TestScripts\super\closure.lox" />
+    <None Include="TestScripts\super\constructor.lox" />
+    <None Include="TestScripts\super\extra_arguments.lox" />
+    <None Include="TestScripts\super\indirectly_inherited.lox" />
+    <None Include="TestScripts\super\missing_arguments.lox" />
+    <None Include="TestScripts\super\no_superclass_bind.lox" />
+    <None Include="TestScripts\super\no_superclass_call.lox" />
+    <None Include="TestScripts\super\no_superclass_method.lox" />
+    <None Include="TestScripts\super\parenthesized.lox" />
+    <None Include="TestScripts\super\reassign_superclass.lox" />
+    <None Include="TestScripts\super\super_at_top_level.lox" />
+    <None Include="TestScripts\super\super_in_closure_in_inherited_method.lox" />
+    <None Include="TestScripts\super\super_in_inherited_method.lox" />
+    <None Include="TestScripts\super\super_in_top_level_function.lox" />
+    <None Include="TestScripts\super\super_without_dot.lox" />
+    <None Include="TestScripts\super\super_without_name.lox" />
+    <None Include="TestScripts\super\this_in_superclass_method.lox" />
+    <None Include="TestScripts\this\closure.lox" />
+    <None Include="TestScripts\this\nested_class.lox" />
+    <None Include="TestScripts\this\nested_closure.lox" />
+    <None Include="TestScripts\this\this_at_top_level.lox" />
+    <None Include="TestScripts\this\this_in_method.lox" />
+    <None Include="TestScripts\this\this_in_top_level_function.lox" />
+    <None Include="TestScripts\unexpected_character.lox" />
+    <None Include="TestScripts\variable\collide_with_parameter.lox" />
+    <None Include="TestScripts\variable\duplicate_local.lox" />
+    <None Include="TestScripts\variable\duplicate_parameter.lox" />
+    <None Include="TestScripts\variable\early_bound.lox" />
+    <None Include="TestScripts\variable\in_middle_of_block.lox" />
+    <None Include="TestScripts\variable\in_nested_block.lox" />
+    <None Include="TestScripts\variable\local_from_method.lox" />
+    <None Include="TestScripts\variable\redeclare_global.lox" />
+    <None Include="TestScripts\variable\redefine_global.lox" />
+    <None Include="TestScripts\variable\scope_reuse_in_different_blocks.lox" />
+    <None Include="TestScripts\variable\shadow_and_local.lox" />
+    <None Include="TestScripts\variable\shadow_global.lox" />
+    <None Include="TestScripts\variable\shadow_local.lox" />
+    <None Include="TestScripts\variable\undefined_global.lox" />
+    <None Include="TestScripts\variable\undefined_local.lox" />
+    <None Include="TestScripts\variable\uninitialized.lox" />
+    <None Include="TestScripts\variable\unreached_undefined.lox" />
+    <None Include="TestScripts\variable\use_false_as_var.lox" />
+    <None Include="TestScripts\variable\use_global_in_initializer.lox" />
+    <None Include="TestScripts\variable\use_local_in_initializer.lox" />
+    <None Include="TestScripts\variable\use_nil_as_var.lox" />
+    <None Include="TestScripts\variable\use_this_as_var.lox" />
+    <None Include="TestScripts\while\class_in_body.lox" />
+    <None Include="TestScripts\while\closure_in_body.lox" />
+    <None Include="TestScripts\while\fun_in_body.lox" />
+    <None Include="TestScripts\while\return_closure.lox" />
+    <None Include="TestScripts\while\return_inside.lox" />
+    <None Include="TestScripts\while\syntax.lox" />
+    <None Include="TestScripts\while\var_in_body.lox" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CsLox\CsLox.csproj">
+      <Project>{38ff413e-d400-4dea-8d4d-e699a38e0f74}</Project>
+      <Name>CsLox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestScripts\extension.txt" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+</Project>
