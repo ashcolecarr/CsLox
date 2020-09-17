@@ -58,5 +58,29 @@ namespace CsLoxTests
 
             return output;
         }
+
+        public static string RunScriptForError(string script)
+        {
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\CsLox\CsLox\bin\Debug\CsLox.exe",
+                Arguments = script,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            Process process = Process.Start(processStartInfo);
+
+            string output;
+            using (StreamReader reader = process.StandardError)
+            {
+                output = reader.ReadToEnd();
+            }
+            process.WaitForExit();
+
+            return output;
+        }
     }
 }

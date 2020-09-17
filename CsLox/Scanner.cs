@@ -107,6 +107,10 @@ namespace CsLox
                             Advance();
                         }
                     }
+                    else if (Match('*'))
+                    {
+                        MultilineComment();
+                    }
                     else
                     {
                         AddToken(TokenType.SLASH);
@@ -207,6 +211,43 @@ namespace CsLox
             // Trim the surrounding quotes.
             string value = source.Substring(start + 1, current - (start + 2));
             AddToken(TokenType.STRING, value);
+        }
+
+        private void MultilineComment()
+        {
+            // A /* comment goes until it hits the closing */
+            while (!IsAtEnd())
+            {
+                if (Peek() == '\n')
+                {
+                    line++;
+                }
+
+                // Check for comment end.
+                if (Peek() == '*')
+                {
+                    Advance();
+                    if (Peek() == '/' && !IsAtEnd())
+                    {
+                        Advance();
+                        return;
+                    }
+                    //else
+                    //{
+                    //    CsLox.Error(line, "Unterminated comment.");
+                    //    return;
+                    //}
+                }
+                else
+                {
+                    Advance();
+                }
+            }
+
+            if (IsAtEnd())
+            {
+                CsLox.Error(line, "Unterminated comment.");
+            }
         }
 
         private bool Match(char expected)

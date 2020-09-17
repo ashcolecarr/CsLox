@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentsTest.cs" />
     <Compile Include="CsLoxTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanningTests.cs" />
@@ -103,6 +104,8 @@
     <None Include="TestScripts\closure\unused_closure.lox" />
     <None Include="TestScripts\closure\unused_later_closure.lox" />
     <None Include="TestScripts\comments\line_at_eof.lox" />
+    <None Include="TestScripts\comments\malformed_multiline_comment.lox" />
+    <None Include="TestScripts\comments\multiline_comment.lox" />
     <None Include="TestScripts\comments\only_line_comment.lox" />
     <None Include="TestScripts\comments\only_line_comment_and_line.lox" />
     <None Include="TestScripts\comments\unicode.lox" />
