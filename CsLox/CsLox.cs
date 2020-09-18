@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsLox.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -73,16 +74,33 @@ namespace CsLox
         {
             Scanner scanner = new Scanner(source);
             List<Token> tokens = scanner.ScanTokens();
+            Parser parser = new Parser(tokens);
+            Expr expression = parser.Parse();
 
-            foreach (Token token in tokens)
+            // Stop if there was a syntax error.
+            if (HadError)
             {
-                Console.WriteLine(token);
+                return;
             }
+
+            Console.WriteLine(new AstPrinter().Print(expression));
         }
 
         public static void Error(int line, string message)
         {
             Report(line, string.Empty, message);
+        }
+
+        public static void Error(Token token, string message)
+        {
+            if (token.Type == TokenType.EOF)
+            {
+                Report(token.Line, " at end", message);
+            }
+            else
+            {
+                Report(token.Line, $" at '{token.Lexeme}'", message);
+            }
         }
 
         private static void Report(int line, string where, string message)

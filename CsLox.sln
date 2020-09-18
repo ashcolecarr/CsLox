@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsLox", "CsLox\CsLox.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsLoxTests", "CsLoxTests\CsLoxTests.csproj", "{811F4362-BAA9-4DA9-9ADF-4E01DC564B60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{7930EE1F-DBB9-4503-964D-8FE5209F56AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{811F4362-BAA9-4DA9-9ADF-4E01DC564B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{811F4362-BAA9-4DA9-9ADF-4E01DC564B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{811F4362-BAA9-4DA9-9ADF-4E01DC564B60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7930EE1F-DBB9-4503-964D-8FE5209F56AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7930EE1F-DBB9-4503-964D-8FE5209F56AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7930EE1F-DBB9-4503-964D-8FE5209F56AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7930EE1F-DBB9-4503-964D-8FE5209F56AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

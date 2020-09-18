@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{38FF413E-D400-4DEA-8D4D-E699A38E0F74}</ProjectGuid>
+    <ProjectGuid>{7930EE1F-DBB9-4503-964D-8FE5209F56AB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CsLox</RootNamespace>
-    <AssemblyName>CsLox</AssemblyName>
+    <RootNamespace>Tools</RootNamespace>
+    <AssemblyName>GenerateAst</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,15 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AstPrinter.cs" />
-    <Compile Include="CsLox.cs" />
-    <Compile Include="Enums\TokenType.cs" />
-    <Compile Include="Exceptions\ParseException.cs" />
-    <Compile Include="Expr.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="GenerateAst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scanner.cs" />
-    <Compile Include="Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

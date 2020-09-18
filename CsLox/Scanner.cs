@@ -232,11 +232,6 @@ namespace CsLox
                         Advance();
                         return;
                     }
-                    //else
-                    //{
-                    //    CsLox.Error(line, "Unterminated comment.");
-                    //    return;
-                    //}
                 }
                 else
                 {
