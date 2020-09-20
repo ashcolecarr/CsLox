@@ -1,4 +1,5 @@
 ﻿using CsLox.Enums;
+using CsLox.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,9 @@ namespace CsLox
     public class CsLox
     {
         public static bool HadError { get; set; } = false;
+        public static bool HadRuntimeError { get; set; } = false;
+
+        private static Interpreter interpreter = new Interpreter();
 
         public static void Main(string[] args)
         {
@@ -40,8 +44,7 @@ namespace CsLox
                 {
                     Run(sr.ReadToEnd());
 
-                    //if (HadError || HadRuntimeError)
-                    if (HadError)
+                    if (HadError || HadRuntimeError)
                     {
                         Environment.Exit(1);
                     }
@@ -83,7 +86,7 @@ namespace CsLox
                 return;
             }
 
-            Console.WriteLine(new AstPrinter().Print(expression));
+            interpreter.Interpret(expression);
         }
 
         public static void Error(int line, string message)
@@ -101,6 +104,12 @@ namespace CsLox
             {
                 Report(token.Line, $" at '{token.Lexeme}'", message);
             }
+        }
+
+        public static void RuntimeError(RuntimeException error)
+        {
+            Console.Error.WriteLine($"{error.Message}\n[line {error.Token.Line}]");
+            HadRuntimeError = true;
         }
 
         private static void Report(int line, string where, string message)

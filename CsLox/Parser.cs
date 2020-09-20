@@ -20,7 +20,7 @@ namespace CsLox
             {
                 return Expression();
             }
-            catch (ParseException e)
+            catch (ParseException)
             {
                 return null;
             }
