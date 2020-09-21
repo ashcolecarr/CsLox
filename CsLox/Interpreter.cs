@@ -1,26 +1,98 @@
 ﻿using CsLox.Enums;
 using CsLox.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace CsLox
 {
-    public class Interpreter : IExprVisitor<object>
+    public class Interpreter : IExprVisitor<object>, IStmtVisitor<object>
     {
-        public void Interpret(Expr expression)
+        private LoxEnvironment environment = new LoxEnvironment();
+
+        public void Interpret(List<Stmt> statements)
         {
             try
             {
-                object value = Evaluate(expression);
-                Console.WriteLine(Stringify(value));
+                foreach (Stmt statement in statements)
+                {
+                    Execute(statement);
+                }
             }
             catch (RuntimeException re)
             {
                 CsLox.RuntimeError(re);
             }
         }
+
         private object Evaluate(Expr expr)
         {
             return expr.Accept(this);
+        }
+
+        private void Execute(Stmt stmt)
+        {
+            stmt.Accept(this);
+        }
+
+        public void ExecuteBlock(List<Stmt> statements, LoxEnvironment environment)
+        {
+            LoxEnvironment previous = this.environment;
+            try
+            {
+                this.environment = environment;
+
+                foreach (Stmt statement in statements)
+                {
+                    Execute(statement);
+                }
+            }
+            finally
+            {
+                this.environment = previous;
+            }
+        }
+
+        public object VisitBlockStmt(Block stmt)
+        {
+            ExecuteBlock(stmt.Statements, new LoxEnvironment(environment));
+
+            return null;
+        }
+
+        public object VisitExpressionStmt(Expression stmt)
+        {
+            Evaluate(stmt.Express);
+
+            return null;
+        }
+
+        public object VisitPrintStmt(Print stmt)
+        {
+            object value = Evaluate(stmt.Expression);
+            Console.WriteLine(Stringify(value));
+
+            return null;
+        }
+
+        public object VisitVarStmt(Var stmt)
+        {
+            object value = null;
+            if (stmt.Initializer != null)
+            {
+                value = Evaluate(stmt.Initializer);
+            }
+
+            environment.Define(stmt.Name.Lexeme, value);
+
+            return null;
+        }
+
+        public object VisitAssignExpr(Assign expr)
+        {
+            object value = Evaluate(expr.Value);
+            environment.Assign(expr.Name, value);
+
+            return value;
         }
 
         public object VisitBinaryExpr(Binary expr)
@@ -114,6 +186,11 @@ namespace CsLox
             return null;
         }
 
+        public object VisitVariableExpr(Variable expr)
+        {
+            return environment.Get(expr.Name);
+        }
+
         private void CheckNumberOperand(Token @operator, object operand)
         {
             if (operand.GetType() == typeof(double))
@@ -131,7 +208,7 @@ namespace CsLox
                 return;
             }
 
-            throw new RuntimeException(@operator, "Operands must be numbers");
+            throw new RuntimeException(@operator, "Operands must be numbers.");
         }
 
         private bool IsTruthy(object @object)

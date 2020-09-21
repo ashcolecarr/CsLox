@@ -14,21 +14,121 @@ namespace CsLox
             this.tokens = tokens;
         }
 
-        public Expr Parse()
+        public List<Stmt> Parse()
         {
-            try
+            List<Stmt> statements = new List<Stmt>();
+            while (!IsAtEnd())
             {
-                return Expression();
+                statements.Add(Declaration());
             }
-            catch (ParseException)
-            {
-                return null;
-            }
+
+            return statements;
         }
 
         private Expr Expression()
         {
-            return Equality();
+            return Assignment();
+        }
+
+        private Stmt Declaration()
+        {
+            try
+            {
+                if (Match(TokenType.VAR))
+                {
+                    return VarDeclaration();
+                }
+
+                return Statement();
+            }
+            catch (ParseException)
+            {
+                Synchronize();
+
+                return null;
+            }
+        }
+
+        private Stmt Statement()
+        {
+            if (Match(TokenType.PRINT))
+            {
+                return PrintStatement();
+            }
+
+            if (Match(TokenType.LEFT_BRACE))
+            {
+                return new Block(Block());
+            }
+
+            return ExpressionStatement();
+        }
+
+        private Stmt PrintStatement()
+        {
+            Expr value = Expression();
+            Consume(TokenType.SEMICOLON, "Expect ';' after value.");
+
+            return new Print(value);
+        }
+
+        private Stmt VarDeclaration()
+        {
+            Token name = Consume(TokenType.IDENTIFIER, "Expect variable name.");
+
+            Expr initializer = null;
+            if (Match(TokenType.EQUAL))
+            {
+                initializer = Expression();
+            }
+
+            Consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.");
+
+            return new Var(name, initializer);
+        }
+
+        private Stmt ExpressionStatement()
+        {
+            Expr expr = Expression();
+            Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
+
+            return new Expression(expr);
+        }
+
+        private List<Stmt> Block()
+        {
+            List<Stmt> statements = new List<Stmt>();
+
+            while (!Check(TokenType.RIGHT_BRACE) && !IsAtEnd())
+            {
+                statements.Add(Declaration());
+            }
+
+            Consume(TokenType.RIGHT_BRACE, "Expect '}' after block.");
+
+            return statements;
+        }
+
+        private Expr Assignment()
+        {
+            Expr expr = Equality();
+
+            if (Match(TokenType.EQUAL))
+            {
+                Token equals = Previous();
+                Expr value = Assignment();
+
+                if (expr.GetType() == typeof(Variable))
+                {
+                    Token name = (expr as Variable).Name;
+
+                    return new Assign(name, value);
+                }
+
+                Error(equals, "Invalid assignment target.");
+            }
+
+            return expr;
         }
 
         private Expr Equality()
@@ -121,20 +221,20 @@ namespace CsLox
                 return new Literal(Previous().Literal);
             }
 
-            //if (Match(TokenType.IDENTIFIER))
-            //{
-            //    return new Variable(Previous());
-            //}
+            if (Match(TokenType.IDENTIFIER))
+            {
+                return new Variable(Previous());
+            }
 
             if (Match(TokenType.LEFT_PAREN))
             {
                 Expr expr = Expression();
-                Consume(TokenType.RIGHT_PAREN, "Expect ')' after expression");
+                Consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
 
                 return new Grouping(expr);
             }
 
-            throw Error(Peek(), "Expect expression");
+            throw Error(Peek(), "Expect expression.");
         }
 
         private bool Match(params TokenType[] types)

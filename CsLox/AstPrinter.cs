@@ -9,6 +9,11 @@ namespace CsLox
             return expr.Accept(this);
         }
 
+        public string VisitAssignExpr(Assign expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitBinaryExpr(Binary expr)
         {
             return Parenthesize(expr.Operator.Lexeme, expr.Left, expr.Right);
@@ -32,6 +37,11 @@ namespace CsLox
         public string VisitUnaryExpr(Unary expr)
         {
             return Parenthesize(expr.Operator.Lexeme, expr.Right);
+        }
+
+        public string VisitVariableExpr(Variable expr)
+        {
+            throw new System.NotImplementedException();
         }
 
         private string Parenthesize(string name, params Expr[] exprs)

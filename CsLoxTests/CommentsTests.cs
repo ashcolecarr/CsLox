@@ -3,13 +3,22 @@
 namespace CsLoxTests
 {
     [TestClass]
-    public class CommentsTest
+    public class CommentsTests
     {
         [TestMethod]
-        public void CommentTest()
+        public void LineAtEofTest()
         {
+            string expected = "ok\r\n";
 
-            string expected = "EOF  \r\n";
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\line_at_eof.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void OnlyLineCommentTest()
+        {
+            string expected = "";
 
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\only_line_comment.lox");
 
@@ -17,12 +26,11 @@ namespace CsLoxTests
         }
 
         [TestMethod]
-        public void CommentAndLineTest()
+        public void OnlyLineCommentAndLineTest()
         {
+            string expected = "";
 
-            string expected = "EOF  \r\n";
-
-            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\only_line_comment.lox");
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\only_line_comment_and_line.lox");
 
             Assert.AreEqual(expected, actual);
         }
@@ -30,11 +38,8 @@ namespace CsLoxTests
         [TestMethod]
         public void MultilineCommentTest()
         {
+            string expected = "ok\r\n2\r\n";
 
-            string expected = @"AND and 
-IDENTIFIER space 
-EOF  
-";
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\multiline_comment.lox");
 
             Assert.AreEqual(expected, actual);
@@ -43,10 +48,8 @@ EOF
         [TestMethod]
         public void MalformedMultilineCommentTest()
         {
+            string expected = "";
 
-            string expected = @"AND and 
-EOF  
-";
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\comments\malformed_multiline_comment.lox");
 
             Assert.AreEqual(expected, actual);
@@ -55,8 +58,7 @@ EOF
         [TestMethod]
         public void MalformedMultilineCommentErrorTest()
         {
-
-            string expected = "[line 5] Error : Unterminated comment.\r\n";
+            string expected = "[line 5] Error: Unterminated comment.\r\n";
 
             string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\comments\malformed_multiline_comment.lox");
 

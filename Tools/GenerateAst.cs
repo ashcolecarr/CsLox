@@ -19,14 +19,26 @@ namespace Tools
 
             DefineAst(outputDir, "Expr", new List<string>
             {
-                //"Assign   : Token name, Expr value", 
+                "Assign   : Token name, Expr value", 
                 "Binary   : Expr left, Token @operator, Expr right",
                 //"Call     : Expr callee, Token paren, List<Expr> arguments",
                 "Grouping : Expr expression",
                 "Literal  : object value",
                 //"Logical  : Expr left, Token opToken, Expr right",
                 "Unary    : Token @operator, Expr right",
-                //"Variable : Token name"
+                "Variable : Token name"
+            });
+
+            DefineAst(outputDir, "Stmt", new List<string>
+            {
+                "Block      : List<Stmt> statements",
+                "Expression : Expr express",
+                //"Function   : Token name, List<Token> paramTokens, List<Stmt> body",
+                //"If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
+                "Print      : Expr expression",
+                //"Return     : Token keyword, Expr value",
+                "Var        : Token name, Expr initializer",
+                //"While      : Expr condition, Stmt body"
             });
         }
 

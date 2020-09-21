@@ -78,7 +78,7 @@ namespace CsLox
             Scanner scanner = new Scanner(source);
             List<Token> tokens = scanner.ScanTokens();
             Parser parser = new Parser(tokens);
-            Expr expression = parser.Parse();
+            List<Stmt> statements = parser.Parse();
 
             // Stop if there was a syntax error.
             if (HadError)
@@ -86,7 +86,7 @@ namespace CsLox
                 return;
             }
 
-            interpreter.Interpret(expression);
+            interpreter.Interpret(statements);
         }
 
         public static void Error(int line, string message)
@@ -108,13 +108,13 @@ namespace CsLox
 
         public static void RuntimeError(RuntimeException error)
         {
-            Console.Error.WriteLine($"{error.Message}\n[line {error.Token.Line}]");
+            Console.Error.WriteLine($"{error.Message}\r\n[line {error.Token.Line}]");
             HadRuntimeError = true;
         }
 
         private static void Report(int line, string where, string message)
         {
-            Console.Error.WriteLine($"[line {line}] Error {where}: {message}");
+            Console.Error.WriteLine($"[line {line}] Error{where}: {message}");
             HadError = true;
         }
     }
