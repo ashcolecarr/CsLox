@@ -8,7 +8,7 @@ namespace CsLoxTests
     public class CsLoxTests
     {
         [TestMethod]
-        public void TooManyArgumentsAreRejected()
+        public void TooManyArgumentsAreRejectedTest()
         {
             string expected = "Usage: cslox [script]\r\n";
 
@@ -18,19 +18,44 @@ namespace CsLoxTests
         }
 
         [TestMethod]
-        public void IncorrectExtensionIsRejected()
+        public void IncorrectExtensionIsRejectedTest()
         {
             string expected = "Only files with a \".lox\" extension can be read.\r\n";
+
             string actual = RunScript(@"C:\CsLox\CsLoxTests\TestScripts\extension.txt");
 
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod, Ignore]
-        public void FileIsRun()
+        public void FileIsRunTest()
         {
             string expected = "Test\r\n";
+
             string actual = RunScript(@"C:\CsLox\CsLoxTests\TestScripts\extension.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void PrecedenceTest()
+        {
+            string expected = @"14
+8
+4
+0
+True
+True
+True
+True
+0
+0
+0
+0
+4
+";
+
+            string actual = RunScript(@"C:\CsLox\CsLoxTests\TestScripts\precedence.lox");
 
             Assert.AreEqual(expected, actual);
         }

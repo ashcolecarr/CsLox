@@ -6,7 +6,7 @@ namespace CsLoxTests
     public class PrintTests
     {
         [TestMethod]
-        public void PrintMissingArgumentTest()
+        public void MissingArgumentTest()
         {
             string expected = "[line 2] Error at ';': Expect expression.\r\n";
 

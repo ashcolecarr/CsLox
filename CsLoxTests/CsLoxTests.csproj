@@ -53,9 +53,13 @@
     <Compile Include="BoolTests.cs" />
     <Compile Include="CommentsTests.cs" />
     <Compile Include="CsLoxTests.cs" />
+    <Compile Include="NilTests.cs" />
+    <Compile Include="NumberTests.cs" />
+    <Compile Include="OperatorTests.cs" />
     <Compile Include="PrintTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanningTests.cs" />
+    <Compile Include="StringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -224,6 +228,7 @@
     <None Include="TestScripts\operator\add_string_nil.lox" />
     <None Include="TestScripts\operator\comparison.lox" />
     <None Include="TestScripts\operator\divide.lox" />
+    <None Include="TestScripts\operator\divide_by_zero.lox" />
     <None Include="TestScripts\operator\divide_nonnum_num.lox" />
     <None Include="TestScripts\operator\divide_num_nonnum.lox" />
     <None Include="TestScripts\operator\equals.lox" />

@@ -3,9 +3,9 @@
 namespace CsLoxTests
 {
     [TestClass]
-    public class MyTestClass
+    public class ScanningTests
     {
-        [TestMethod]
+        [TestMethod, Ignore]
         public void IdentifiersTest()
         {
             string expected = @"IDENTIFIER andy 
@@ -23,7 +23,7 @@ EOF
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void KeywordsTest()
         {
             string expected = @"AND and 
@@ -48,7 +48,7 @@ EOF
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void NumbersTest()
         {
             string expected = @"NUMBER 123 123
@@ -64,7 +64,7 @@ EOF
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void PunctuatorsTest()
         {
             string expected = @"LEFT_PAREN ( 
@@ -92,7 +92,7 @@ EOF
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void StringsTest()
         {
             string expected = @"STRING """" 
@@ -104,7 +104,7 @@ EOF
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void WhitespaceTest()
         {
             string expected = @"IDENTIFIER space 

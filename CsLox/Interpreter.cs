@@ -61,7 +61,11 @@ namespace CsLox
 
         public object VisitExpressionStmt(Expression stmt)
         {
-            Evaluate(stmt.Express);
+            object value = Evaluate(stmt.Express);
+            if (stmt.Express is Binary || stmt.Express is Unary)
+            {
+                Console.WriteLine(Stringify(value));
+            }
 
             return null;
         }
@@ -100,6 +104,7 @@ namespace CsLox
             object left = Evaluate(expr.Left);
             object right = Evaluate(expr.Right);
 
+
             switch (expr.Operator.Type)
             {
                 case TokenType.GREATER:
@@ -122,6 +127,16 @@ namespace CsLox
                     CheckNumberOperands(expr.Operator, left, right);
                     return (double)left - (double)right;
                 case TokenType.PLUS:
+                    if (left == null)
+                    {
+                        throw new RuntimeException(expr.Operator, "Left-hand operand cannot be nil.");
+                    }
+
+                    if (right == null)
+                    {
+                        throw new RuntimeException(expr.Operator, "Right-hand operand cannot be nil.");
+                    }
+
                     if (left.GetType() == typeof(double) && right.GetType() == typeof(double))
                     {
                         return (double)left + (double)right;
@@ -193,6 +208,11 @@ namespace CsLox
 
         private void CheckNumberOperand(Token @operator, object operand)
         {
+            if (operand == null)
+            {
+                throw new RuntimeException(@operator, "Operand must be a number.");
+            }
+
             if (operand.GetType() == typeof(double))
             {
                 return;
@@ -203,6 +223,11 @@ namespace CsLox
 
         private void CheckNumberOperands(Token @operator, object left, object right)
         {
+            if (left == null || right == null)
+            {
+                throw new RuntimeException(@operator, "Operands must be numbers.");
+            }
+
             if (left.GetType() == typeof(double) && right.GetType() == typeof(double))
             {
                 return;
