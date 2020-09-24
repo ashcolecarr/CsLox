@@ -24,7 +24,7 @@ namespace Tools
                 //"Call     : Expr callee, Token paren, List<Expr> arguments",
                 "Grouping : Expr expression",
                 "Literal  : object value",
-                //"Logical  : Expr left, Token opToken, Expr right",
+                "Logical  : Expr left, Token @operator, Expr right",
                 "Unary    : Token @operator, Expr right",
                 "Variable : Token name"
             });
@@ -34,11 +34,11 @@ namespace Tools
                 "Block      : List<Stmt> statements",
                 "Expression : Expr express",
                 //"Function   : Token name, List<Token> paramTokens, List<Stmt> body",
-                //"If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
+                "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "Print      : Expr expression",
                 //"Return     : Token keyword, Expr value",
                 "Var        : Token name, Expr initializer",
-                //"While      : Expr condition, Stmt body"
+                "While      : Expr condition, Stmt body"
             });
         }
 

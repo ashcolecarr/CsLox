@@ -74,6 +74,25 @@ namespace CsLox
         }
     }
 
+    public class Logical : Expr
+    {
+        public Expr Left { get; }
+        public Token Operator { get; }
+        public Expr Right { get; }
+
+        public Logical(Expr left, Token @operator, Expr right)
+        {
+            Left = left;
+            Operator = @operator;
+            Right = right;
+        }
+
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitLogicalExpr(this);
+        }
+    }
+
     public class Unary : Expr
     {
         public Token Operator { get; }
@@ -112,6 +131,7 @@ namespace CsLox
         T VisitBinaryExpr(Binary expr);
         T VisitGroupingExpr(Grouping expr);
         T VisitLiteralExpr(Literal expr);
+        T VisitLogicalExpr(Logical expr);
         T VisitUnaryExpr(Unary expr);
         T VisitVariableExpr(Variable expr);
     }

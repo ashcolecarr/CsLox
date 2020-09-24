@@ -54,15 +54,14 @@ namespace CsLox
 
         public void Define(string name, object value)
         {
-            values.Add(name, value);
-            //if (values.ContainsKey(name))
-            //{
-            //    values[name] = value;
-            //}
-            //else
-            //{
-            //    values.Add(name, value);
-            //}
+            if (values.ContainsKey(name))
+            {
+                values[name] = value;
+            }
+            else
+            {
+                values.Add(name, value);
+            }
         }
     }
 }

@@ -70,6 +70,20 @@ namespace CsLox
             return null;
         }
 
+        public object VisitIfStmt(If stmt)
+        {
+            if (IsTruthy(Evaluate(stmt.Condition)))
+            {
+                Execute(stmt.ThenBranch);
+            }
+            else if (stmt.ElseBranch != null)
+            {
+                Execute(stmt.ElseBranch);
+            }
+
+            return null;
+        }
+
         public object VisitPrintStmt(Print stmt)
         {
             object value = Evaluate(stmt.Expression);
@@ -87,6 +101,16 @@ namespace CsLox
             }
 
             environment.Define(stmt.Name.Lexeme, value);
+
+            return null;
+        }
+
+        public object VisitWhileStmt(While stmt)
+        {
+            while (IsTruthy(Evaluate(stmt.Condition)))
+            {
+                Execute(stmt.Body);
+            }
 
             return null;
         }
@@ -182,6 +206,28 @@ namespace CsLox
         public object VisitLiteralExpr(Literal expr)
         {
             return expr.Value;
+        }
+
+        public object VisitLogicalExpr(Logical expr)
+        {
+            object left = Evaluate(expr.Left);
+
+            if (expr.Operator.Type == TokenType.OR)
+            {
+                if (IsTruthy(left))
+                {
+                    return left;
+                }
+            }
+            else
+            {
+                if (!IsTruthy(left))
+                {
+                    return left;
+                }
+            }
+
+            return Evaluate(expr.Right);
         }
 
         public object VisitUnaryExpr(Unary expr)

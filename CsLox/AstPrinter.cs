@@ -34,6 +34,11 @@ namespace CsLox
             return expr.Value.ToString();
         }
 
+        public string VisitLogicalExpr(Logical expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitUnaryExpr(Unary expr)
         {
             return Parenthesize(expr.Operator.Lexeme, expr.Right);
