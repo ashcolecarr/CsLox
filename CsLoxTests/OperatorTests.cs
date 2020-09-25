@@ -285,7 +285,7 @@ False
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void NotTest()
         {
             string expected = @"False
@@ -303,7 +303,7 @@ False
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void NotEqualsTest()
         {
             string expected = @"False

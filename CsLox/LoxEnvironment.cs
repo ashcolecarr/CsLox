@@ -5,17 +5,17 @@ namespace CsLox
 {
     public class LoxEnvironment
     {
-        public LoxEnvironment enclosing;
+        public LoxEnvironment Enclosing;
         private Dictionary<string, object> values = new Dictionary<string, object>();
 
         public LoxEnvironment()
         {
-            enclosing = null;
+            Enclosing = null;
         }
 
         public LoxEnvironment(LoxEnvironment enclosing)
         {
-            this.enclosing = enclosing;
+            this.Enclosing = enclosing;
         }
 
         public object Get(Token name)
@@ -25,9 +25,9 @@ namespace CsLox
                 return value;
             }
 
-            if (enclosing != null)
+            if (Enclosing != null)
             {
-                return enclosing.Get(name);
+                return Enclosing.Get(name);
             }
 
             throw new RuntimeException(name, $"Undefined variable '{name.Lexeme}'.");
@@ -42,9 +42,9 @@ namespace CsLox
                 return;
             }
 
-            if (enclosing != null)
+            if (Enclosing != null)
             {
-                enclosing.Assign(name, value);
+                Enclosing.Assign(name, value);
 
                 return;
             }
@@ -54,14 +54,28 @@ namespace CsLox
 
         public void Define(string name, object value)
         {
-            if (values.ContainsKey(name))
+            values[name] = value;
+        }
+
+        public LoxEnvironment Ancestor(int distance)
+        {
+            LoxEnvironment environment = this;
+            for (int i = 0; i < distance; i++)
             {
-                values[name] = value;
+                environment = environment.Enclosing;
             }
-            else
-            {
-                values.Add(name, value);
-            }
+
+            return environment;
+        }
+
+        public object GetAt(int distance, string name)
+        {
+            return Ancestor(distance).values[name];
+        }
+
+        public void AssignAt(int distance, Token name, object value)
+        {
+            Ancestor(distance).values[name.Lexeme] = value;
         }
     }
 }

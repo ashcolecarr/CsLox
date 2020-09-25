@@ -28,7 +28,7 @@ namespace CsLoxTests
         [TestMethod]
         public void MultilineTest()
         {
-            string expected = "1\n2\n3\r\n";
+            string expected = "1\r\n2\r\n3\r\n";
 
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\string\multiline.lox");
 

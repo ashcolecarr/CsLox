@@ -15,10 +15,10 @@ namespace CsLoxTests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void AssignToShadowedLaterTest()
         {
-            string expected = "assigned\r\nglobal\r\n";
+            string expected = "inner\r\nassigned\r\n";
 
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\closure\assign_to_shadowed_later.lox");
 

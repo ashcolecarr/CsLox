@@ -36,6 +36,16 @@ namespace CsLoxTests
         }
 
         [TestMethod]
+        public void AtTopLevelTest()
+        {
+            string expected = "[line 1] Error at 'return': Cannot return from top-level code.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\return\at_top_level.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void InFunctionTest()
         {
             string expected = "ok\r\n";

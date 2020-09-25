@@ -6,6 +6,46 @@ namespace CsLoxTests
     public class VariableTests
     {
         [TestMethod]
+        public void CollideWithParameterTest()
+        {
+            string expected = "[line 2] Error at 'a': Variable with this name already declared in this scope.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\collide_with_parameter.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void DuplicateLocalTest()
+        {
+            string expected = "[line 3] Error at 'a': Variable with this name already declared in this scope.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\duplicate_local.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void DuplicateParameterTest()
+        {
+            string expected = "[line 2] Error at 'arg': Variable with this name already declared in this scope.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\duplicate_parameter.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void EarlyBoundTest()
+        {
+            string expected = "outer\r\nouter\r\n";
+
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\variable\early_bound.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void InMiddleOfBlockTest()
         {
             string expected = "a\r\na b\r\na c\r\na b d\r\n";
@@ -131,6 +171,16 @@ namespace CsLoxTests
             string expected = "[line 2] Error at 'false': Expect variable name.\r\n";
 
             string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\use_false_as_var.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void UseLocalInInitializerTest()
+        {
+            string expected = "[line 3] Error at 'a': Cannot read local variable in its own initializer.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\use_local_in_initializer.lox");
 
             Assert.AreEqual(expected, actual);
         }

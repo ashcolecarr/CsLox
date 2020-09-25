@@ -86,6 +86,15 @@ namespace CsLox
                 return;
             }
 
+            Resolver resolver = new Resolver(interpreter);
+            resolver.Resolve(statements);
+
+            // Stop if there was a resolution error.
+            if (HadError)
+            {
+                return;
+            }
+
             interpreter.Interpret(statements);
         }
 

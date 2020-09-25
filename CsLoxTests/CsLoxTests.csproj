@@ -56,6 +56,7 @@
     <Compile Include="CommentsTests.cs" />
     <Compile Include="CsLoxTests.cs" />
     <Compile Include="ForTests.cs" />
+    <Compile Include="FunctionTests.cs" />
     <Compile Include="IfTests.cs" />
     <Compile Include="LogicalOperatorTests.cs" />
     <Compile Include="NilTests.cs" />

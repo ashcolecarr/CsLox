@@ -26,6 +26,25 @@ namespace CsLoxTests
         }
 
         [TestMethod]
+        public void FunInElseTest()
+        {
+            string expected = "[line 2] Error at 'fun': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\if\fun_in_else.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FunInThenTest()
+        {
+            string expected = "[line 2] Error at 'fun': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\if\fun_in_then.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
         public void IfTest()
         {
             string expected = "good\r\nblock\r\nTrue\r\n";

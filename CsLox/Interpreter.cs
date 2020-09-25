@@ -10,6 +10,7 @@ namespace CsLox
     {
         public LoxEnvironment Globals = new LoxEnvironment();
         private LoxEnvironment environment;
+        private Dictionary<Expr, int> locals = new Dictionary<Expr, int>();
 
         public Interpreter()
         {
@@ -40,6 +41,18 @@ namespace CsLox
         private void Execute(Stmt stmt)
         {
             stmt.Accept(this);
+        }
+
+        public void Resolve(Expr expr, int depth)
+        {
+            if (locals.ContainsKey(expr))
+            {
+                locals[expr] = depth;
+            }
+            else
+            {
+                locals.Add(expr, depth);
+            }
         }
 
         public void ExecuteBlock(List<Stmt> statements, LoxEnvironment environment)
@@ -157,7 +170,15 @@ namespace CsLox
         public object VisitAssignExpr(Assign expr)
         {
             object value = Evaluate(expr.Value);
-            environment.Assign(expr.Name, value);
+
+            if (locals.TryGetValue(expr, out int distance))
+            {
+                environment.AssignAt(distance, expr.Name, value);
+            }
+            else
+            {
+                Globals.Assign(expr.Name, value);
+            }
 
             return value;
         }
@@ -319,7 +340,19 @@ namespace CsLox
 
         public object VisitVariableExpr(Variable expr)
         {
-            return environment.Get(expr.Name);
+            return LookUpVariable(expr.Name, expr);
+        }
+
+        private object LookUpVariable(Token name, Expr expr)
+        {
+            if (locals.TryGetValue(expr, out int distance))
+            {
+                return environment.GetAt(distance, name.Lexeme);
+            }
+            else
+            {
+                return Globals.Get(name);
+            }
         }
 
         private void CheckNumberOperand(Token @operator, object operand)
