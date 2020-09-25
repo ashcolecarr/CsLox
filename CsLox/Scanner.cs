@@ -14,6 +14,7 @@ namespace CsLox
         private readonly Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>
         {
             { "and", TokenType.AND },
+            { "break", TokenType.BREAK },
             { "class", TokenType.CLASS },
             { "else", TokenType.ELSE },
             { "false", TokenType.FALSE },
@@ -85,6 +86,12 @@ namespace CsLox
                     break;
                 case '*':
                     AddToken(TokenType.STAR);
+                    break;
+                case '?':
+                    AddToken(TokenType.QUERY);
+                    break;
+                case ':':
+                    AddToken(TokenType.COLON);
                     break;
                 case '!':
                     AddToken(Match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);

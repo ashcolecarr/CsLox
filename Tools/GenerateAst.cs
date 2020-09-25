@@ -21,10 +21,11 @@ namespace Tools
             {
                 "Assign   : Token name, Expr value", 
                 "Binary   : Expr left, Token @operator, Expr right",
-                //"Call     : Expr callee, Token paren, List<Expr> arguments",
+                "Call     : Expr callee, Token paren, List<Expr> arguments",
                 "Grouping : Expr expression",
                 "Literal  : object value",
                 "Logical  : Expr left, Token @operator, Expr right",
+                "Ternary  : Expr condition, Expr thenBranch, Expr elseBranch",
                 "Unary    : Token @operator, Expr right",
                 "Variable : Token name"
             });
@@ -32,11 +33,12 @@ namespace Tools
             DefineAst(outputDir, "Stmt", new List<string>
             {
                 "Block      : List<Stmt> statements",
+                "Break      : ",
                 "Expression : Expr express",
-                //"Function   : Token name, List<Token> paramTokens, List<Stmt> body",
+                "Function   : Token name, List<Token> @params, List<Stmt> body",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "Print      : Expr expression",
-                //"Return     : Token keyword, Expr value",
+                "Return     : Token keyword, Expr value",
                 "Var        : Token name, Expr initializer",
                 "While      : Expr condition, Stmt body"
             });
@@ -100,15 +102,18 @@ namespace Tools
             string[] fields = fieldList.Split(new string[] { ", " }, StringSplitOptions.None);
             foreach (string field in fields)
             {
-                string fieldType = field.Split(' ')[0];
-                string fieldName = field.Split(' ')[1];
-                if (fieldName[0] == '@')
+                if (!string.IsNullOrWhiteSpace(field))
                 {
-                    file.WriteLine($"        public {fieldType} {fieldName.Substring(1, 1).ToUpper()}{fieldName.Substring(2)} {{ get; }}");
-                }
-                else
-                {
-                    file.WriteLine($"        public {fieldType} {fieldName.Substring(0, 1).ToUpper()}{fieldName.Substring(1)} {{ get; }}");
+                    string fieldType = field.Split(' ')[0];
+                    string fieldName = field.Split(' ')[1];
+                    if (fieldName[0] == '@')
+                    {
+                        file.WriteLine($"        public {fieldType} {fieldName.Substring(1, 1).ToUpper()}{fieldName.Substring(2)} {{ get; }}");
+                    }
+                    else
+                    {
+                        file.WriteLine($"        public {fieldType} {fieldName.Substring(0, 1).ToUpper()}{fieldName.Substring(1)} {{ get; }}");
+                    }
                 }
             }
             file.WriteLine();
@@ -120,14 +125,17 @@ namespace Tools
             // Store parameters in fields.
             foreach (string field in fields)
             {
-                string name = field.Split(' ')[1];
-                if (name[0] == '@')
+                if (!string.IsNullOrWhiteSpace(field))
                 {
-                    file.WriteLine($"            {name.Substring(1, 1).ToUpper()}{name.Substring(2)} = {name};");
-                }
-                else
-                {
-                    file.WriteLine($"            {name.Substring(0, 1).ToUpper()}{name.Substring(1)} = {name};");
+                    string name = field.Split(' ')[1];
+                    if (name[0] == '@')
+                    {
+                        file.WriteLine($"            {name.Substring(1, 1).ToUpper()}{name.Substring(2)} = {name};");
+                    }
+                    else
+                    {
+                        file.WriteLine($"            {name.Substring(0, 1).ToUpper()}{name.Substring(1)} = {name};");
+                    }
                 }
             }
             file.WriteLine("        }");

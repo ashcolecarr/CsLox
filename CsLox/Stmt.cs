@@ -23,6 +23,19 @@ namespace CsLox
         }
     }
 
+    public class Break : Stmt
+    {
+
+        public Break()
+        {
+        }
+
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitBreakStmt(this);
+        }
+    }
+
     public class Expression : Stmt
     {
         public Expr Express { get; }
@@ -35,6 +48,25 @@ namespace CsLox
         public override T Accept<T>(IStmtVisitor<T> visitor)
         {
             return visitor.VisitExpressionStmt(this);
+        }
+    }
+
+    public class Function : Stmt
+    {
+        public Token Name { get; }
+        public List<Token> Params { get; }
+        public List<Stmt> Body { get; }
+
+        public Function(Token name, List<Token> @params, List<Stmt> body)
+        {
+            Name = name;
+            Params = @params;
+            Body = body;
+        }
+
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitFunctionStmt(this);
         }
     }
 
@@ -69,6 +101,23 @@ namespace CsLox
         public override T Accept<T>(IStmtVisitor<T> visitor)
         {
             return visitor.VisitPrintStmt(this);
+        }
+    }
+
+    public class Return : Stmt
+    {
+        public Token Keyword { get; }
+        public Expr Value { get; }
+
+        public Return(Token keyword, Expr value)
+        {
+            Keyword = keyword;
+            Value = value;
+        }
+
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitReturnStmt(this);
         }
     }
 
@@ -109,9 +158,12 @@ namespace CsLox
     public interface IStmtVisitor<T>
     {
         T VisitBlockStmt(Block stmt);
+        T VisitBreakStmt(Break stmt);
         T VisitExpressionStmt(Expression stmt);
+        T VisitFunctionStmt(Function stmt);
         T VisitIfStmt(If stmt);
         T VisitPrintStmt(Print stmt);
+        T VisitReturnStmt(Return stmt);
         T VisitVarStmt(Var stmt);
         T VisitWhileStmt(While stmt);
     }

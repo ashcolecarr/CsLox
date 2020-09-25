@@ -43,12 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstPrinter.cs" />
+    <Compile Include="Clock.cs" />
     <Compile Include="CsLox.cs" />
     <Compile Include="Enums\TokenType.cs" />
+    <Compile Include="Exceptions\BreakException.cs" />
     <Compile Include="Exceptions\ParseException.cs" />
+    <Compile Include="Exceptions\ReturnException.cs" />
     <Compile Include="Exceptions\RuntimeException.cs" />
     <Compile Include="Expr.cs" />
+    <Compile Include="Interfaces\ILoxCallable.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="LoxFunction.cs" />
     <Compile Include="LoxEnvironment.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

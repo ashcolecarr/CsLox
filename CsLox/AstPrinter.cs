@@ -19,6 +19,11 @@ namespace CsLox
             return Parenthesize(expr.Operator.Lexeme, expr.Left, expr.Right);
         }
 
+        public string VisitCallExpr(Call expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitGroupingExpr(Grouping expr)
         {
             return Parenthesize("group", expr.Expression);
@@ -35,6 +40,11 @@ namespace CsLox
         }
 
         public string VisitLogicalExpr(Logical expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string VisitTernaryExpr(Ternary expr)
         {
             throw new System.NotImplementedException();
         }

@@ -1,0 +1,3 @@
+﻿var a = "random";
+break; // expect: [line 2] Error at 'break': Break statement must be inside a loop.
+print a;

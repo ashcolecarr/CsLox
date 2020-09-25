@@ -1,0 +1,16 @@
+var a = 5;
+var b = 5;
+var c = 4;
+
+a == 5 ? "yes" : "no"; // expect yes
+a == 4 ? "yes" : "no"; // expect no
+a == 5 and b == 4 ? 1 : 2; // expect 2
+a == 5 and b == 5 ? 1 : 2; // expect 1
+
+a > c ? "greater" : "less"; // expect greater
+a < c ? "greater" : "less"; // expect less
+a != 5 ? "yes" : "no"; // expect no
+
+true ? true ? "yes" : "no" : "what"; // expect yes
+true ? false ? "yes" : "no" : "what"; // expect no
+false ? false ? "yes" : "no" : "what"; // expect what

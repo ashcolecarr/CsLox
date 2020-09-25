@@ -1,5 +1,6 @@
 ﻿using CsLox.Enums;
 using CsLox.Exceptions;
+using CsLox.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,14 @@ namespace CsLox
 {
     public class Interpreter : IExprVisitor<object>, IStmtVisitor<object>
     {
-        private LoxEnvironment environment = new LoxEnvironment();
+        public LoxEnvironment Globals = new LoxEnvironment();
+        private LoxEnvironment environment;
+
+        public Interpreter()
+        {
+            Globals.Define("clock", new Clock());
+            environment = Globals;
+        }
 
         public void Interpret(List<Stmt> statements)
         {
@@ -51,6 +59,11 @@ namespace CsLox
                 this.environment = previous;
             }
         }
+        
+        public object VisitBreakStmt(Break stmt)
+        {
+            throw new BreakException();
+        }
 
         public object VisitBlockStmt(Block stmt)
         {
@@ -62,10 +75,18 @@ namespace CsLox
         public object VisitExpressionStmt(Expression stmt)
         {
             object value = Evaluate(stmt.Express);
-            if (stmt.Express is Binary || stmt.Express is Unary)
+            if (stmt.Express is Binary || stmt.Express is Unary || stmt.Express is Ternary)
             {
                 Console.WriteLine(Stringify(value));
             }
+
+            return null;
+        }
+
+        public object VisitFunctionStmt(Function stmt)
+        {
+            LoxFunction function = new LoxFunction(stmt, environment);
+            environment.Define(stmt.Name.Lexeme, function);
 
             return null;
         }
@@ -92,6 +113,17 @@ namespace CsLox
             return null;
         }
 
+        public object VisitReturnStmt(Return stmt)
+        {
+            object value = null;
+            if (stmt.Value != null)
+            {
+                value = Evaluate(stmt.Value);
+            }
+
+            throw new ReturnException(value);
+        }
+
         public object VisitVarStmt(Var stmt)
         {
             object value = null;
@@ -109,7 +141,14 @@ namespace CsLox
         {
             while (IsTruthy(Evaluate(stmt.Condition)))
             {
-                Execute(stmt.Body);
+                try
+                {
+                    Execute(stmt.Body);
+                }
+                catch (BreakException)
+                {
+                    break;
+                }
             }
 
             return null;
@@ -198,6 +237,25 @@ namespace CsLox
             return null;
         }
 
+        public object VisitCallExpr(Call expr)
+        {
+            object callee = Evaluate(expr.Callee);
+
+            List<object> arguments = new List<object>();
+            foreach (Expr argument in expr.Arguments)
+            {
+                arguments.Add(Evaluate(argument));
+            }
+
+            ILoxCallable function = (ILoxCallable)callee;
+            if (arguments.Count != function.Arity())
+            {
+                throw new RuntimeException(expr.Paren, $"Expected {function.Arity()} arguments but got {arguments.Count}.");
+            }
+
+            return function.Call(this, arguments);
+        }
+
         public object VisitGroupingExpr(Grouping expr)
         {
             return Evaluate(expr.Expression);
@@ -228,6 +286,18 @@ namespace CsLox
             }
 
             return Evaluate(expr.Right);
+        }
+
+        public object VisitTernaryExpr(Ternary expr)
+        {
+            if (IsTruthy(Evaluate(expr.Condition)))
+            {
+                return Evaluate(expr.ThenBranch);
+            }
+            else
+            {
+                return Evaluate(expr.ElseBranch);
+            }
         }
 
         public object VisitUnaryExpr(Unary expr)

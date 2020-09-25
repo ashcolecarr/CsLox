@@ -44,6 +44,25 @@ namespace CsLox
         }
     }
 
+    public class Call : Expr
+    {
+        public Expr Callee { get; }
+        public Token Paren { get; }
+        public List<Expr> Arguments { get; }
+
+        public Call(Expr callee, Token paren, List<Expr> arguments)
+        {
+            Callee = callee;
+            Paren = paren;
+            Arguments = arguments;
+        }
+
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitCallExpr(this);
+        }
+    }
+
     public class Grouping : Expr
     {
         public Expr Expression { get; }
@@ -93,6 +112,25 @@ namespace CsLox
         }
     }
 
+    public class Ternary : Expr
+    {
+        public Expr Condition { get; }
+        public Expr ThenBranch { get; }
+        public Expr ElseBranch { get; }
+
+        public Ternary(Expr condition, Expr thenBranch, Expr elseBranch)
+        {
+            Condition = condition;
+            ThenBranch = thenBranch;
+            ElseBranch = elseBranch;
+        }
+
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitTernaryExpr(this);
+        }
+    }
+
     public class Unary : Expr
     {
         public Token Operator { get; }
@@ -129,9 +167,11 @@ namespace CsLox
     {
         T VisitAssignExpr(Assign expr);
         T VisitBinaryExpr(Binary expr);
+        T VisitCallExpr(Call expr);
         T VisitGroupingExpr(Grouping expr);
         T VisitLiteralExpr(Literal expr);
         T VisitLogicalExpr(Logical expr);
+        T VisitTernaryExpr(Ternary expr);
         T VisitUnaryExpr(Unary expr);
         T VisitVariableExpr(Variable expr);
     }

@@ -60,6 +60,16 @@ True
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void UnexpectedCharacterTest()
+        {
+            string expected = "[line 3] Error: Unexpected character.\r\n[line 3] Error at 'b': Expect ')' after arguments.\r\n";
+
+            string actual = RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\unexpected_character.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
         public static string RunScript(string script)
         {
             ProcessStartInfo processStartInfo = new ProcessStartInfo

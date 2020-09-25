@@ -8,6 +8,8 @@ namespace CsLox
     {
         private List<Token> tokens;
         private int current = 0;
+        private const int MAX_ARGUMENTS = 255;
+        private bool isInsideLoop = false;
 
         public Parser(List<Token> tokens)
         {
@@ -34,6 +36,11 @@ namespace CsLox
         {
             try
             {
+                if (Match(TokenType.FUN))
+                {
+                    return Function("function");
+                }
+
                 if (Match(TokenType.VAR))
                 {
                     return VarDeclaration();
@@ -51,6 +58,11 @@ namespace CsLox
 
         private Stmt Statement()
         {
+            if (Match(TokenType.BREAK))
+            {
+                return BreakStatement();
+            }
+
             if (Match(TokenType.FOR))
             {
                 return ForStatement();
@@ -66,6 +78,11 @@ namespace CsLox
                 return PrintStatement();
             }
 
+            if (Match(TokenType.RETURN))
+            {
+                return ReturnStatement();
+            }
+
             if (Match(TokenType.WHILE))
             {
                 return WhileStatement();
@@ -77,6 +94,18 @@ namespace CsLox
             }
 
             return ExpressionStatement();
+        }
+
+        private Stmt BreakStatement()
+        {
+            Token keyword = Previous();
+            if (!isInsideLoop)
+            {
+                Error(keyword, "Break statement must be inside a loop.");
+            }
+            Consume(TokenType.SEMICOLON, "Expect ';' after statement.");
+
+            return new Break();
         }
 
         private Stmt ForStatement()
@@ -111,6 +140,7 @@ namespace CsLox
             }
             Consume(TokenType.RIGHT_PAREN, "Expect ')' after for clauses.");
 
+            isInsideLoop = true;
             Stmt body = Statement();
 
             if (increment != null)
@@ -136,6 +166,7 @@ namespace CsLox
                     body
                 });
             }
+            isInsideLoop = false;
 
             return body;
         }
@@ -164,6 +195,20 @@ namespace CsLox
             return new Print(value);
         }
 
+        private Stmt ReturnStatement()
+        {
+            Token keyword = Previous();
+            Expr value = null;
+            if (!Check(TokenType.SEMICOLON))
+            {
+                value = Expression();
+            }
+
+            Consume(TokenType.SEMICOLON, "Expect ';' after return value.");
+
+            return new Return(keyword, value);
+        }
+
         private Stmt VarDeclaration()
         {
             Token name = Consume(TokenType.IDENTIFIER, "Expect variable name.");
@@ -184,7 +229,9 @@ namespace CsLox
             Consume(TokenType.LEFT_PAREN, "Expect '(' after 'while'.");
             Expr condition = Expression();
             Consume(TokenType.RIGHT_PAREN, "Expect ')' after condition.");
+            isInsideLoop = true;
             Stmt body = Statement();
+            isInsideLoop = false;
 
             return new While(condition, body);
         }
@@ -195,6 +242,32 @@ namespace CsLox
             Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
 
             return new Expression(expr);
+        }
+
+        private Function Function(string kind)
+        {
+            Token name = Consume(TokenType.IDENTIFIER, $"Expect {kind} name.");
+            Consume(TokenType.LEFT_PAREN, $"Expect '(' after {kind} name.");
+            List<Token> parameters = new List<Token>();
+            if (!Check(TokenType.RIGHT_PAREN))
+            {
+                do
+                {
+                    if (parameters.Count >= MAX_ARGUMENTS)
+                    {
+                        Error(Peek(), $"Cannot have more than {MAX_ARGUMENTS} parameters.");
+                    }
+
+                    parameters.Add(Consume(TokenType.IDENTIFIER, "Expect parameter name."));
+                }
+                while (Match(TokenType.COMMA));
+            }
+            Consume(TokenType.RIGHT_PAREN, "Expect ')' after parameters.");
+
+            Consume(TokenType.LEFT_BRACE, $"Expect '{{' before {kind} body.");
+            List<Stmt> body = Block();
+
+            return new Function(name, parameters, body);
         }
 
         private List<Stmt> Block()
@@ -213,7 +286,7 @@ namespace CsLox
 
         private Expr Assignment()
         {
-            Expr expr = Or();
+            Expr expr = Ternary();
 
             if (Match(TokenType.EQUAL))
             {
@@ -228,6 +301,20 @@ namespace CsLox
                 }
 
                 Error(equals, "Invalid assignment target.");
+            }
+
+            return expr;
+        }
+
+        private Expr Ternary()
+        {
+            Expr expr = Or();
+            if (Match(TokenType.QUERY))
+            {
+                Expr thenBranch = Expression();
+                Consume(TokenType.COLON, "Expect ':' after expression.");
+                Expr elseBranch = Ternary();
+                expr = new Ternary(expr, thenBranch, elseBranch);
             }
 
             return expr;
@@ -326,7 +413,47 @@ namespace CsLox
                 return new Unary(@operator, right);
             }
 
-            return Primary();
+            return Call();
+        }
+
+        private Expr FinishCall(Expr callee)
+        {
+            List<Expr> arguments = new List<Expr>();
+            if (!Check(TokenType.RIGHT_PAREN))
+            {
+                do
+                {
+                    if (arguments.Count >= MAX_ARGUMENTS)
+                    {
+                        Error(Peek(), $"Cannot have more than {MAX_ARGUMENTS} arguments.");
+                    }
+                    arguments.Add(Expression());
+                }
+                while (Match(TokenType.COMMA));
+            }
+
+            Token paren = Consume(TokenType.RIGHT_PAREN, "Expect ')' after arguments.");
+
+            return new Call(callee, paren, arguments);
+        }
+
+        private Expr Call()
+        {
+            Expr expr = Primary();
+
+            while (true)
+            {
+                if (Match(TokenType.LEFT_PAREN))
+                {
+                    expr = FinishCall(expr);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return expr;
         }
 
         private Expr Primary()

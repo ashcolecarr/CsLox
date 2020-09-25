@@ -352,5 +352,35 @@ True
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void TernaryTest()
+        {
+            string expected = "yes\r\nno\r\n2\r\n1\r\ngreater\r\nless\r\nno\r\nyes\r\nno\r\nwhat\r\n";
+
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\operator\ternary.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TernaryMissingThenTest()
+        {
+            string expected = "[line 2] Error at ':': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\operator\ternary_missing_then.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TernaryMissingElseTest()
+        {
+            string expected = "[line 2] Error at ';': Expect ':' after expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\operator\ternary_missing_else.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
