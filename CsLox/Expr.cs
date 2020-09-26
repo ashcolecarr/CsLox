@@ -148,6 +148,23 @@ namespace CsLox
         }
     }
 
+    public class Super : Expr
+    {
+        public Token Keyword { get; }
+        public Token Method { get; }
+
+        public Super(Token keyword, Token method)
+        {
+            Keyword = keyword;
+            Method = method;
+        }
+
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitSuperExpr(this);
+        }
+    }
+
     public class Ternary : Expr
     {
         public Expr Condition { get; }
@@ -224,6 +241,7 @@ namespace CsLox
         T VisitLiteralExpr(Literal expr);
         T VisitLogicalExpr(Logical expr);
         T VisitSetExpr(Set expr);
+        T VisitSuperExpr(Super expr);
         T VisitTernaryExpr(Ternary expr);
         T VisitThisExpr(This expr);
         T VisitUnaryExpr(Unary expr);

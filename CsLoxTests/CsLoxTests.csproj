@@ -61,6 +61,7 @@
     <Compile Include="ForTests.cs" />
     <Compile Include="FunctionTests.cs" />
     <Compile Include="IfTests.cs" />
+    <Compile Include="InheritanceTests.cs" />
     <Compile Include="LogicalOperatorTests.cs" />
     <Compile Include="MethodTests.cs" />
     <Compile Include="NilTests.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="ReturnTests.cs" />
     <Compile Include="ScanningTests.cs" />
     <Compile Include="StringTests.cs" />
+    <Compile Include="SuperTests.cs" />
     <Compile Include="ThisTests.cs" />
     <Compile Include="VariableTests.cs" />
     <Compile Include="WhileTests.cs" />
@@ -258,6 +260,9 @@
     <None Include="TestScripts\operator\less_num_nonnum.lox" />
     <None Include="TestScripts\operator\less_or_equal_nonnum_num.lox" />
     <None Include="TestScripts\operator\less_or_equal_num_nonnum.lox" />
+    <None Include="TestScripts\operator\modulo.lox" />
+    <None Include="TestScripts\operator\modulo_nonnum_num.lox" />
+    <None Include="TestScripts\operator\modulo_num_nonnum.lox" />
     <None Include="TestScripts\operator\multiply.lox" />
     <None Include="TestScripts\operator\multiply_nonnum_num.lox" />
     <None Include="TestScripts\operator\multiply_num_nonnum.lox" />

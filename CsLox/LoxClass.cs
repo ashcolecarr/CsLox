@@ -6,11 +6,13 @@ namespace CsLox
     public class LoxClass : ILoxCallable
     {
         public string Name { get; set; }
+        public LoxClass Superclass { get; set; } = null;
         private Dictionary<string, LoxFunction> methods;
 
-        public LoxClass(string name, Dictionary<string, LoxFunction> methods)
+        public LoxClass(string name, LoxClass superclass, Dictionary<string, LoxFunction> methods)
         {
             Name = name;
+            Superclass = superclass;
             this.methods = methods;
         }
 
@@ -19,6 +21,11 @@ namespace CsLox
             if (methods.TryGetValue(name, out LoxFunction method))
             {
                 return method;
+            }
+
+            if (Superclass != null)
+            {
+                return Superclass.FindMethod(name);
             }
 
             return null;

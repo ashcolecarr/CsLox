@@ -1,0 +1,2 @@
+﻿print 57 % 10; // expect: 7
+print 10 % 2; // expect: 0

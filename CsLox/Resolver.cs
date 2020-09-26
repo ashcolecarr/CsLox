@@ -25,42 +25,6 @@ namespace CsLox
             }
         }
 
-        public object VisitBlockStmt(Block stmt)
-        {
-            BeginScope();
-            Resolve(stmt.Statements);
-            EndScope();
-
-            return null;
-        }
-
-        public object VisitClassStmt(Class stmt)
-        {
-            ClassType enclosingClass = currentClass;
-            currentClass = ClassType.CLASS;
-
-            Declare(stmt.Name);
-            Define(stmt.Name);
-
-            BeginScope();
-            scopes.Peek().Add("this", true);
-
-            foreach (Function method in stmt.Methods)
-            {
-                FunctionType declaration = FunctionType.METHOD;
-                if (method.Name.Lexeme.Equals("init"))
-                {
-                    declaration = FunctionType.INITIALIZER;
-                }
-                ResolveFunction(method, declaration);
-            }
-
-            EndScope();
-            currentClass = enclosingClass;
-
-            return null;
-        }
-
         private void Resolve(Stmt stmt)
         {
             stmt.Accept(this);
@@ -143,12 +107,67 @@ namespace CsLox
             // Not found. Assume it is global.
         }
 
+        public object VisitBlockStmt(Block stmt)
+        {
+            BeginScope();
+            Resolve(stmt.Statements);
+            EndScope();
+
+            return null;
+        }
+
         public object VisitBreakStmt(Break stmt)
         {
             if (currentLoop == LoopType.NONE)
             {
                 CsLox.Error(stmt.Keyword, "Break statement must be inside a loop.");
             }
+
+            return null;
+        }
+
+        public object VisitClassStmt(Class stmt)
+        {
+            ClassType enclosingClass = currentClass;
+            currentClass = ClassType.CLASS;
+
+            Declare(stmt.Name);
+            Define(stmt.Name);
+
+            if (stmt.Superclass != null && stmt.Name.Lexeme.Equals(stmt.Superclass.Name.Lexeme))
+            {
+                CsLox.Error(stmt.Superclass.Name, "A class cannot inherit from itself.");
+            }
+
+            if (stmt.Superclass != null)
+            {
+                currentClass = ClassType.SUBCLASS;
+                Resolve(stmt.Superclass);
+                BeginScope();
+                scopes.Peek()["super"] = true;
+            }
+
+            BeginScope();
+            scopes.Peek()["this"] = true;
+
+            foreach (Function method in stmt.Methods)
+            {
+                FunctionType declaration = FunctionType.METHOD;
+                if (method.Name.Lexeme.Equals("init"))
+                {
+                    declaration = FunctionType.INITIALIZER;
+                }
+                ResolveFunction(method, declaration);
+            }
+
+            EndScope();
+
+            if (stmt.Superclass != null)
+            {
+                EndScope();
+            }
+
+            currentClass = enclosingClass;
 
             return null;
         }
@@ -290,6 +309,22 @@ namespace CsLox
         {
             Resolve(expr.Value);
             Resolve(expr.Object);
+
+            return null;
+        }
+
+        public object VisitSuperExpr(Super expr)
+        {
+            if (currentClass == ClassType.NONE)
+            {
+                CsLox.Error(expr.Keyword, "Cannot use 'super' outside of a class.");
+            }
+            else if (currentClass != ClassType.SUBCLASS)
+            {
+                CsLox.Error(expr.Keyword, "Cannot use 'super' in a class with no superclass.");
+            }
+
+            ResolveLocal(expr, expr.Keyword);
 
             return null;
         }

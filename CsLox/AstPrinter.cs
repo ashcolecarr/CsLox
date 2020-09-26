@@ -54,6 +54,11 @@ namespace CsLox
             throw new System.NotImplementedException();
         }
 
+        public string VisitSuperExpr(Super expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitTernaryExpr(Ternary expr)
         {
             throw new System.NotImplementedException();

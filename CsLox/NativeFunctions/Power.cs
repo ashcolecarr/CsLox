@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using CsLox.Interfaces;
 
-namespace CsLox
+namespace CsLox.NativeFunctions
 {
-    public class Clock : ILoxCallable
+    public class Power : ILoxCallable
     {
         public int Arity()
         {
-            return 0;
+            return 2;
         }
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
-            return (double)(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            double @base = (double)arguments[0];
+            double power = (double)arguments[1];
+
+            return Math.Pow(@base, power);
         }
 
         public override string ToString()

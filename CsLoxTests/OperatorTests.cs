@@ -236,6 +236,36 @@ False
         }
 
         [TestMethod]
+        public void ModuloTest()
+        {
+            string expected = "7\r\n0\r\n";
+
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\operator\modulo.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ModuloNonnumNumTest()
+        {
+            string expected = "Operands must be numbers.\r\n[line 1]\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\operator\modulo_nonnum_num.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ModuloNumNonnumTest()
+        {
+            string expected = "Operands must be numbers.\r\n[line 1]\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\operator\modulo_num_nonnum.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void MultiplyTest()
         {
             string expected = "15\r\n3.702\r\n";

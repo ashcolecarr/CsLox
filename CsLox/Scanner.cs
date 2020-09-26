@@ -123,6 +123,9 @@ namespace CsLox
                         AddToken(TokenType.SLASH);
                     }
                     break;
+                case '%':
+                    AddToken(TokenType.PERCENT);
+                    break;
                 case ' ':
                 case '\r':
                 case '\t':

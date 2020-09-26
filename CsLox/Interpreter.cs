@@ -1,6 +1,7 @@
 ﻿using CsLox.Enums;
 using CsLox.Exceptions;
 using CsLox.Interfaces;
+using CsLox.NativeFunctions;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ namespace CsLox
         public Interpreter()
         {
             Globals.Define("clock", new Clock());
+            Globals.Define("power", new Power());
             environment = Globals;
         }
 
@@ -87,7 +89,23 @@ namespace CsLox
 
         public object VisitClassStmt(Class stmt)
         {
+            object superclass = null;
+            if (stmt.Superclass != null)
+            {
+                superclass = Evaluate(stmt.Superclass);
+                if (!(superclass is LoxClass))
+                {
+                    throw new RuntimeException(stmt.Superclass.Name, "Superclass must be a class.");
+                }
+            }
+
             environment.Define(stmt.Name.Lexeme, null);
+
+            if (stmt.Superclass != null)
+            {
+                environment = new LoxEnvironment(environment);
+                environment.Define("super", superclass);
+            }
 
             Dictionary<string, LoxFunction> methods = new Dictionary<string, LoxFunction>();
             foreach (Function method in stmt.Methods)
@@ -96,7 +114,13 @@ namespace CsLox
                 methods.Add(method.Name.Lexeme, function);
             }
 
-            LoxClass @class = new LoxClass(stmt.Name.Lexeme, methods);
+            LoxClass @class = new LoxClass(stmt.Name.Lexeme, (LoxClass)superclass, methods);
+
+            if (superclass != null)
+            {
+                environment = environment.Enclosing;
+            }
+
             environment.Assign(stmt.Name, @class);
 
             return null;
@@ -269,6 +293,9 @@ namespace CsLox
                 case TokenType.STAR:
                     CheckNumberOperands(expr.Operator, left, right);
                     return (double)left * (double)right;
+                case TokenType.PERCENT:
+                    CheckNumberOperands(expr.Operator, left, right);
+                    return (double)left % (double)right;
             }
 
             // Unreachable.
@@ -349,6 +376,23 @@ namespace CsLox
             ((LoxInstance)@object).Set(expr.Name, value);
 
             return value;
+        }
+
+        public object VisitSuperExpr(Super expr)
+        {
+            int distance = locals[expr];
+            LoxClass superclass = (LoxClass)environment.GetAt(distance, "super");
+
+            // "this" is always one level nearer than "super"'s environment.
+            LoxInstance @object = (LoxInstance)environment.GetAt(distance - 1, "this");
+
+            LoxFunction method = superclass.FindMethod(expr.Method.Lexeme);
+            if (method == null)
+            {
+                throw new RuntimeException(expr.Method, $"Undefined property '{expr.Method.Lexeme}'.");
+            }
+
+            return method.Bind(@object);
         }
 
         public object VisitThisExpr(This expr)
