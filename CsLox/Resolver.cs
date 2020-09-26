@@ -9,6 +9,7 @@ namespace CsLox
         private Interpreter interpreter;
         private Stack<Dictionary<string, bool>> scopes = new Stack<Dictionary<string, bool>>();
         private FunctionType currentFunction = FunctionType.NONE;
+        private ClassType currentClass = ClassType.NONE;
 
         public Resolver(Interpreter interpreter)
         {
@@ -28,6 +29,33 @@ namespace CsLox
             BeginScope();
             Resolve(stmt.Statements);
             EndScope();
+
+            return null;
+        }
+
+        public object VisitClassStmt(Class stmt)
+        {
+            ClassType enclosingClass = currentClass;
+            currentClass = ClassType.CLASS;
+
+            Declare(stmt.Name);
+            Define(stmt.Name);
+
+            BeginScope();
+            scopes.Peek().Add("this", true);
+
+            foreach (Function method in stmt.Methods)
+            {
+                FunctionType declaration = FunctionType.METHOD;
+                if (method.Name.Lexeme.Equals("init"))
+                {
+                    declaration = FunctionType.INITIALIZER;
+                }
+                ResolveFunction(method, declaration);
+            }
+
+            EndScope();
+            currentClass = enclosingClass;
 
             return null;
         }
@@ -164,6 +192,10 @@ namespace CsLox
 
             if (stmt.Value != null)
             {
+                if (currentFunction == FunctionType.INITIALIZER)
+                {
+                    CsLox.Error(stmt.Keyword, "Cannot return a value from an initializer.");
+                }
                 Resolve(stmt.Value);
             }
 
@@ -218,6 +250,13 @@ namespace CsLox
             return null;
         }
 
+        public object VisitGetExpr(Get expr)
+        {
+            Resolve(expr.Object);
+
+            return null;
+        }
+
         public object VisitGroupingExpr(Grouping expr)
         {
             Resolve(expr.Expression);
@@ -238,11 +277,30 @@ namespace CsLox
             return null;
         }
 
+        public object VisitSetExpr(Set expr)
+        {
+            Resolve(expr.Value);
+            Resolve(expr.Object);
+
+            return null;
+        }
+
         public object VisitTernaryExpr(Ternary expr)
         {
             Resolve(expr.Condition);
             Resolve(expr.ThenBranch);
             Resolve(expr.ElseBranch);
+
+            return null;
+        }
+
+        public object VisitThisExpr(This expr)
+        {
+            if (currentClass == ClassType.NONE)
+            {
+                CsLox.Error(expr.Keyword, "Cannot use 'this' outside of a class.");
+            }
+            ResolveLocal(expr, expr.Keyword);
 
             return null;
         }

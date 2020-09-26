@@ -52,13 +52,17 @@
     <Compile Include="BlockTests.cs" />
     <Compile Include="BoolTests.cs" />
     <Compile Include="BreakTests.cs" />
+    <Compile Include="ClassTests.cs" />
     <Compile Include="ClosureTests.cs" />
     <Compile Include="CommentsTests.cs" />
+    <Compile Include="ConstructorTests.cs" />
     <Compile Include="CsLoxTests.cs" />
+    <Compile Include="FieldTests.cs" />
     <Compile Include="ForTests.cs" />
     <Compile Include="FunctionTests.cs" />
     <Compile Include="IfTests.cs" />
     <Compile Include="LogicalOperatorTests.cs" />
+    <Compile Include="MethodTests.cs" />
     <Compile Include="NilTests.cs" />
     <Compile Include="NumberTests.cs" />
     <Compile Include="OperatorTests.cs" />
@@ -67,6 +71,7 @@
     <Compile Include="ReturnTests.cs" />
     <Compile Include="ScanningTests.cs" />
     <Compile Include="StringTests.cs" />
+    <Compile Include="ThisTests.cs" />
     <Compile Include="VariableTests.cs" />
     <Compile Include="WhileTests.cs" />
   </ItemGroup>

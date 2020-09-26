@@ -8,11 +8,21 @@ namespace CsLox
     {
         private Function declaration;
         private LoxEnvironment closure;
+        private bool isInitializer;
 
-        public LoxFunction(Function declaration, LoxEnvironment closure)
+        public LoxFunction(Function declaration, LoxEnvironment closure, bool isInitializer)
         {
+            this.isInitializer = isInitializer;
             this.closure = closure;
             this.declaration = declaration;
+        }
+
+        public LoxFunction Bind(LoxInstance instance)
+        {
+            LoxEnvironment environment = new LoxEnvironment(closure);
+            environment.Define("this", instance);
+
+            return new LoxFunction(declaration, environment, isInitializer);
         }
 
         public int Arity()
@@ -34,7 +44,17 @@ namespace CsLox
             }
             catch (ReturnException returnValue)
             {
+                if (isInitializer)
+                {
+                    return closure.GetAt(0, "this");
+                }
+
                 return returnValue.Value;
+            }
+
+            if (isInitializer)
+            {
+                return closure.GetAt(0, "this");
             }
 
             return null;

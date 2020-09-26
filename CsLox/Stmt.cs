@@ -23,6 +23,23 @@ namespace CsLox
         }
     }
 
+    public class Class : Stmt
+    {
+        public Token Name { get; }
+        public List<Function> Methods { get; }
+
+        public Class(Token name, List<Function> methods)
+        {
+            Name = name;
+            Methods = methods;
+        }
+
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitClassStmt(this);
+        }
+    }
+
     public class Break : Stmt
     {
 
@@ -158,6 +175,7 @@ namespace CsLox
     public interface IStmtVisitor<T>
     {
         T VisitBlockStmt(Block stmt);
+        T VisitClassStmt(Class stmt);
         T VisitBreakStmt(Break stmt);
         T VisitExpressionStmt(Expression stmt);
         T VisitFunctionStmt(Function stmt);

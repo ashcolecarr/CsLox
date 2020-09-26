@@ -73,14 +73,31 @@ namespace CsLox
             }
         }
         
+        public object VisitBlockStmt(Block stmt)
+        {
+            ExecuteBlock(stmt.Statements, new LoxEnvironment(environment));
+
+            return null;
+        }
+
         public object VisitBreakStmt(Break stmt)
         {
             throw new BreakException();
         }
 
-        public object VisitBlockStmt(Block stmt)
+        public object VisitClassStmt(Class stmt)
         {
-            ExecuteBlock(stmt.Statements, new LoxEnvironment(environment));
+            environment.Define(stmt.Name.Lexeme, null);
+
+            Dictionary<string, LoxFunction> methods = new Dictionary<string, LoxFunction>();
+            foreach (Function method in stmt.Methods)
+            {
+                LoxFunction function = new LoxFunction(method, environment, method.Name.Lexeme.Equals("init"));
+                methods.Add(method.Name.Lexeme, function);
+            }
+
+            LoxClass @class = new LoxClass(stmt.Name.Lexeme, methods);
+            environment.Assign(stmt.Name, @class);
 
             return null;
         }
@@ -98,7 +115,7 @@ namespace CsLox
 
         public object VisitFunctionStmt(Function stmt)
         {
-            LoxFunction function = new LoxFunction(stmt, environment);
+            LoxFunction function = new LoxFunction(stmt, environment, false);
             environment.Define(stmt.Name.Lexeme, function);
 
             return null;
@@ -277,6 +294,17 @@ namespace CsLox
             return function.Call(this, arguments);
         }
 
+        public object VisitGetExpr(Get expr)
+        {
+            object @object = Evaluate(expr.Object);
+            if (@object is LoxInstance)
+            {
+                return ((LoxInstance)@object).Get(expr.Name);
+            }
+
+            throw new RuntimeException(expr.Name, "Only instances have properties.");
+        }
+
         public object VisitGroupingExpr(Grouping expr)
         {
             return Evaluate(expr.Expression);
@@ -307,6 +335,25 @@ namespace CsLox
             }
 
             return Evaluate(expr.Right);
+        }
+
+        public object VisitSetExpr(Set expr)
+        {
+            object @object = Evaluate(expr.Object);
+            if (!(@object is LoxInstance))
+            {
+                throw new RuntimeException(expr.Name, "Only instances have fields.");
+            }
+
+            object value = Evaluate(expr.Value);
+            ((LoxInstance)@object).Set(expr.Name, value);
+
+            return value;
+        }
+
+        public object VisitThisExpr(This expr)
+        {
+            return LookUpVariable(expr.Keyword, expr);
         }
 
         public object VisitTernaryExpr(Ternary expr)

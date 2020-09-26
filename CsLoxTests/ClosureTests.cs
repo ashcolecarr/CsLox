@@ -46,6 +46,16 @@ namespace CsLoxTests
         }
 
         [TestMethod]
+        public void CloseOverMethodParameterTest()
+        {
+            string expected = "param\r\n";
+
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\closure\close_over_method_parameter.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ClosedClosureInFunctionTest()
         {
             string expected = "local\r\n";

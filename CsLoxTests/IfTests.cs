@@ -6,6 +6,26 @@ namespace CsLoxTests
     public class IfTests
     {
         [TestMethod]
+        public void ClassInElseTest()
+        {
+            string expected = "[line 2] Error at 'class': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\if\class_in_else.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ClassInThenTest()
+        {
+            string expected = "[line 2] Error at 'class': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\if\class_in_then.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void DanglingElseTest()
         {
             string expected = "good\r\n";

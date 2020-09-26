@@ -66,6 +66,16 @@ namespace CsLoxTests
         }
 
         [TestMethod]
+        public void LocalFromMethodTest()
+        {
+            string expected = "variable\r\n";
+
+            string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\variable\local_from_method.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void RedeclareGlobalTest()
         {
             string expected = "nil\r\n";
@@ -176,21 +186,21 @@ namespace CsLoxTests
         }
 
         [TestMethod]
-        public void UseLocalInInitializerTest()
-        {
-            string expected = "[line 3] Error at 'a': Cannot read local variable in its own initializer.\r\n";
-
-            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\use_local_in_initializer.lox");
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public void UseGlobalInInitializerTest()
         {
             string expected = "value\r\n";
 
             string actual = CsLoxTests.RunScript(@"C:\CsLox\CsLoxTests\TestScripts\variable\use_global_in_initializer.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void UseLocalInInitializerTest()
+        {
+            string expected = "[line 3] Error at 'a': Cannot read local variable in its own initializer.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\variable\use_local_in_initializer.lox");
 
             Assert.AreEqual(expected, actual);
         }

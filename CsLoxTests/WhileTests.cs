@@ -6,6 +6,16 @@ namespace CsLoxTests
     public class WhileTests
     {
         [TestMethod]
+        public void ClassInBodyTest()
+        {
+            string expected = "[line 2] Error at 'class': Expect expression.\r\n";
+
+            string actual = CsLoxTests.RunScriptForError(@"C:\CsLox\CsLoxTests\TestScripts\while\class_in_body.lox");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ClosureInBodyTest()
         {
             string expected = "1\r\n2\r\n3\r\n";

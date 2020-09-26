@@ -24,6 +24,11 @@ namespace CsLox
             throw new System.NotImplementedException();
         }
 
+        public string VisitGetExpr(Get expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitGroupingExpr(Grouping expr)
         {
             return Parenthesize("group", expr.Expression);
@@ -44,7 +49,17 @@ namespace CsLox
             throw new System.NotImplementedException();
         }
 
+        public string VisitSetExpr(Set expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitTernaryExpr(Ternary expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string VisitThisExpr(This expr)
         {
             throw new System.NotImplementedException();
         }
