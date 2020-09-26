@@ -10,6 +10,7 @@ namespace CsLox
         private Stack<Dictionary<string, bool>> scopes = new Stack<Dictionary<string, bool>>();
         private FunctionType currentFunction = FunctionType.NONE;
         private ClassType currentClass = ClassType.NONE;
+        private LoopType currentLoop = LoopType.NONE;
 
         public Resolver(Interpreter interpreter)
         {
@@ -144,6 +145,11 @@ namespace CsLox
 
         public object VisitBreakStmt(Break stmt)
         {
+            if (currentLoop == LoopType.NONE)
+            {
+                CsLox.Error(stmt.Keyword, "Break statement must be inside a loop.");
+            }
+
             return null;
         }
 
@@ -216,8 +222,11 @@ namespace CsLox
 
         public object VisitWhileStmt(While stmt)
         {
+            LoopType enclosingLoop = currentLoop;
+            currentLoop = LoopType.WHILE;
             Resolve(stmt.Condition);
             Resolve(stmt.Body);
+            currentLoop = enclosingLoop;
 
             return null;
         }

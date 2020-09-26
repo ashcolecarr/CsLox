@@ -47,6 +47,7 @@
     <Compile Include="CsLox.cs" />
     <Compile Include="Enums\ClassType.cs" />
     <Compile Include="Enums\FunctionType.cs" />
+    <Compile Include="Enums\LoopType.cs" />
     <Compile Include="Enums\TokenType.cs" />
     <Compile Include="Exceptions\BreakException.cs" />
     <Compile Include="Exceptions\ParseException.cs" />

@@ -37,7 +37,7 @@ namespace Tools
             {
                 "Block      : List<Stmt> statements",
                 "Class      : Token name, List<Function> methods",
-                "Break      : ",
+                "Break      : Token keyword",
                 "Expression : Expr express",
                 "Function   : Token name, List<Token> @params, List<Stmt> body",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",

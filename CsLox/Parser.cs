@@ -9,7 +9,6 @@ namespace CsLox
         private List<Token> tokens;
         private int current = 0;
         private const int MAX_ARGUMENTS = 255;
-        private bool isInsideLoop = false;
 
         public Parser(List<Token> tokens)
         {
@@ -120,13 +119,9 @@ namespace CsLox
         private Stmt BreakStatement()
         {
             Token keyword = Previous();
-            if (!isInsideLoop)
-            {
-                Error(keyword, "Break statement must be inside a loop.");
-            }
             Consume(TokenType.SEMICOLON, "Expect ';' after statement.");
 
-            return new Break();
+            return new Break(keyword);
         }
 
         private Stmt ForStatement()
@@ -161,7 +156,6 @@ namespace CsLox
             }
             Consume(TokenType.RIGHT_PAREN, "Expect ')' after for clauses.");
 
-            isInsideLoop = true;
             Stmt body = Statement();
 
             if (increment != null)
@@ -187,7 +181,6 @@ namespace CsLox
                     body
                 });
             }
-            isInsideLoop = false;
 
             return body;
         }
@@ -250,9 +243,7 @@ namespace CsLox
             Consume(TokenType.LEFT_PAREN, "Expect '(' after 'while'.");
             Expr condition = Expression();
             Consume(TokenType.RIGHT_PAREN, "Expect ')' after condition.");
-            isInsideLoop = true;
             Stmt body = Statement();
-            isInsideLoop = false;
 
             return new While(condition, body);
         }

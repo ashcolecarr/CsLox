@@ -42,9 +42,11 @@ namespace CsLox
 
     public class Break : Stmt
     {
+        public Token Keyword { get; }
 
-        public Break()
+        public Break(Token keyword)
         {
+            Keyword = keyword;
         }
 
         public override T Accept<T>(IStmtVisitor<T> visitor)
